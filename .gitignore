@@ -1,0 +1,42 @@
+# Visual Studio / .NET
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.ide
+*.log
+*.vspscc
+_ReSharper*/
+*.DotSettings.user
+
+# Build outputs
+bin/
+obj/
+publish/
+artifacts/
+TestResults/
+
+# Rider
+.idea/
+
+# NuGet
+*.nupkg
+packages/
+.nuget/packages/
+
+# Generated DB / runtime artifacts
+*.db
+*.db-journal
+*.mdf
+*.ldf
+*.dbmdl
+
+# Visual Studio generated files
+*.cache
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
