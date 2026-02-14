@@ -1,42 +1,61 @@
-# Visual Studio / .NET
-.vs/
+# =====================================
+# Visual Studio / Rider / IDE files
+# =====================================
 .vscode/
 .idea/
-*.suo
+.vs/
 *.user
+*.suo
 *.userosscache
-*.sln.ide
-*.log
+*.sln.docstates
 *.vspscc
+*.vssscc
 _ReSharper*/
 *.DotSettings.user
 
-# Build outputs
-bin/
-obj/
+# =====================================
+# Build / Output / Binaries
+# =====================================
+[Bb]in/
+[Oo]bj/
+*.pdb
+*.exe
+*.dll
+*.deps.json
+*.runtimeconfig.json
 publish/
 artifacts/
-TestResults/
+TestResult*/
 
-# Rider
-.idea/
-
-# NuGet
+# =====================================
+# NuGet / Packages
+# =====================================
 *.nupkg
 packages/
 .nuget/packages/
 
-# Generated DB / runtime artifacts
+# =====================================
+# Database files
+# =====================================
 *.db
 *.db-journal
 *.mdf
 *.ldf
 *.dbmdl
+*.sqlite
+*.sqlite3
 
-# Visual Studio generated files
+# =====================================
+# Generated / Temp files
+# =====================================
 *.cache
-
-# OS
+*.log
+*.tmp
+*.DS_Store
 Thumbs.db
 Desktop.ini
-.DS_Store
+
+# =====================================
+# Project-specific ignores
+# =====================================
+*.log
