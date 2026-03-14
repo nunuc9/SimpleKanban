@@ -1,61 +1,31 @@
-# =====================================
-# Visual Studio / Rider / IDE files
-# =====================================
-.vscode/
-.idea/
+# Generic gitignore for .NET project
+# Visual Studio / .NET
 .vs/
+bin/
+obj/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
-*.vspscc
-*.vssscc
+
+# Rider
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# Build outputs
+publish/
+*.nupkg
+
+# EF Migrations / Local DB / SQLite files you may not want
+*.db
+*.mdf
+*.ldf
+
+# Rider/Resharper
 _ReSharper*/
 *.DotSettings.user
 
-# =====================================
-# Build / Output / Binaries
-# =====================================
-[Bb]in/
-[Oo]bj/
-*.pdb
-*.exe
-*.dll
-*.deps.json
-*.runtimeconfig.json
-publish/
-artifacts/
-TestResult*/
-
-# =====================================
-# NuGet / Packages
-# =====================================
-*.nupkg
-packages/
-.nuget/packages/
-
-# =====================================
-# Database files
-# =====================================
-*.db
-*.db-journal
-*.mdf
-*.ldf
-*.dbmdl
-*.sqlite
-*.sqlite3
-
-# =====================================
-# Generated / Temp files
-# =====================================
-*.cache
-*.log
-*.tmp
-*.DS_Store
-Thumbs.db
-Desktop.ini
-
-# =====================================
-# Project-specific ignores
-# =====================================
-*.log
+# User secrets (if used)
+secrets.json

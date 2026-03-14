@@ -1,4 +1,3 @@
-csharp Models/TaskItem.cs
 using System;
 
 namespace SimpleKanban;

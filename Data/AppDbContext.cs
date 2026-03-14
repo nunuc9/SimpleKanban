@@ -1,4 +1,3 @@
-csharp Data/AppDbContext.cs
 using Microsoft.EntityFrameworkCore;
 
 namespace SimpleKanban;

@@ -1,4 +1,3 @@
-csharp Data/AppDbContextFactory.cs
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

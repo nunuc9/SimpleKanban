@@ -1,13 +1,10 @@
-﻿using System.Text;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using SimpleKanban.Models;
+using SimpleKanban.ViewModels;
+using SimpleKanban.Views;
 
 namespace SimpleKanban
 {
@@ -16,9 +13,105 @@ namespace SimpleKanban
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Point _dragStartPoint;
+        private ListBox? _sourceListBox;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private MainViewModel ViewModel => (MainViewModel)DataContext!;
+
+        private void AddItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is Category cat)
+            {
+                var dlg = new AddItemWindow { Owner = this };
+                if (dlg.ShowDialog() == true && dlg.Result is not null)
+                {
+                    ViewModel.AddItemToCategory(cat, dlg.Result);
+                }
+            }
+        }
+
+        private void EditItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is KanbanItem item)
+            {
+                var dlg = new AddItemWindow(item) { Owner = this };
+                if (dlg.ShowDialog() == true && dlg.Result is not null)
+                {
+                    // If editing we updated the original object directly; no further action required.
+                }
+            }
+        }
+
+        private void DeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is KanbanItem item)
+            {
+                var result = MessageBox.Show(this, $"Delete \"{item.Title}\"?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    ViewModel.RemoveItem(item);
+                }
+            }
+        }
+
+        private void DeleteCategory_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is Category cat)
+            {
+                var result = MessageBox.Show(this, $"Delete category \"{cat.Name}\" and all its items?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    ViewModel.RemoveCategory(cat);
+                }
+            }
+        }
+
+        private void ListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _dragStartPoint = e.GetPosition(null);
+            _sourceListBox = sender as ListBox;
+        }
+
+        private void ListBox_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton != MouseButtonState.Pressed)
+                return;
+
+            var currentPosition = e.GetPosition(null);
+            var diff = currentPosition - _dragStartPoint;
+            if (Math.Abs(diff.X) < SystemParameters.MinimumHorizontalDragDistance &&
+                Math.Abs(diff.Y) < SystemParameters.MinimumVerticalDragDistance)
+                return;
+
+            if (_sourceListBox?.SelectedItem is KanbanItem item)
+            {
+                var data = new DataObject(typeof(KanbanItem), item);
+                DragDrop.DoDragDrop(_sourceListBox, data, DragDropEffects.Move);
+            }
+        }
+
+        private void ListBox_Drop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(typeof(KanbanItem)))
+                return;
+
+            if (sender is not ListBox targetListBox)
+                return;
+
+            var item = (KanbanItem?)e.Data.GetData(typeof(KanbanItem));
+            if (item is null)
+                return;
+
+            // Find target category from DataContext of the ListBox's parent Item container.
+            if (targetListBox.DataContext is Category targetCategory)
+            {
+                ViewModel.MoveItemToCategory(item, targetCategory);
+            }
         }
     }
 }
