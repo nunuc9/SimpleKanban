@@ -30,8 +30,14 @@
                                      AllowDrop="True"
                                      PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown"
                                      PreviewMouseMove="ListBox_PreviewMouseMove"
-                                     Drop="ListBox_Drop"
-                                     DisplayMemberPath="Title">
+                                     Drop="ListBox_Drop">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="ToolTip" Value="ListBoxItem container" />
+                                        <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Border BorderBrush="#FFE0E0E0" BorderThickness="1" Padding="6" Margin="0,0,0,8" Background="#FFF">

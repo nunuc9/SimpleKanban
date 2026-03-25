@@ -28,6 +28,7 @@ namespace SimpleKanban
             if (sender is Button btn && btn.Tag is Category cat)
             {
                 var dlg = new AddItemWindow { Owner = this };
+
                 if (dlg.ShowDialog() == true && dlg.Result is not null)
                 {
                     ViewModel.AddItemToCategory(cat, dlg.Result);
@@ -40,6 +41,7 @@ namespace SimpleKanban
             if (sender is Button btn && btn.Tag is KanbanItem item)
             {
                 var dlg = new AddItemWindow(item) { Owner = this };
+
                 if (dlg.ShowDialog() == true && dlg.Result is not null)
                 {
                     // If editing we updated the original object directly; no further action required.
@@ -52,6 +54,7 @@ namespace SimpleKanban
             if (sender is Button btn && btn.Tag is KanbanItem item)
             {
                 var result = MessageBox.Show(this, $"Delete \"{item.Title}\"?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
                 if (result == MessageBoxResult.Yes)
                 {
                     ViewModel.RemoveItem(item);
@@ -64,6 +67,7 @@ namespace SimpleKanban
             if (sender is Button btn && btn.Tag is Category cat)
             {
                 var result = MessageBox.Show(this, $"Delete category \"{cat.Name}\" and all its items?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
                 if (result == MessageBoxResult.Yes)
                 {
                     ViewModel.RemoveCategory(cat);
@@ -84,6 +88,7 @@ namespace SimpleKanban
 
             var currentPosition = e.GetPosition(null);
             var diff = currentPosition - _dragStartPoint;
+
             if (Math.Abs(diff.X) < SystemParameters.MinimumHorizontalDragDistance &&
                 Math.Abs(diff.Y) < SystemParameters.MinimumVerticalDragDistance)
                 return;
@@ -104,6 +109,7 @@ namespace SimpleKanban
                 return;
 
             var item = (KanbanItem?)e.Data.GetData(typeof(KanbanItem));
+
             if (item is null)
                 return;
 
@@ -112,6 +118,27 @@ namespace SimpleKanban
             {
                 ViewModel.MoveItemToCategory(item, targetCategory);
             }
+        }
+
+        // Open the same dialog used for Add/Edit when a Kanban item is double-clicked.
+        private void ListBoxItem_MouseDoubleClick(object? sender, MouseButtonEventArgs e)
+        {
+            if (sender is not ListBoxItem listBoxItem)
+                return;
+
+            if (listBoxItem.DataContext is not KanbanItem item)
+                return;
+
+            var dlg = new AddItemWindow(item) { Owner = this };
+            if (dlg.ShowDialog() == true)
+            {
+                if (dlg.DeleteRequested)
+                {
+                    ViewModel.RemoveItem(item);
+                }
+            }
+
+            e.Handled = true;
         }
     }
 }

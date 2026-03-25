@@ -1,12 +1,16 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using SimpleKanban.Models;
+using System.Windows.Input;
+using System.Windows;
+using SimpleKanban.Views;
 
 namespace SimpleKanban.ViewModels
 {
     internal class MainViewModel
     {
         public ObservableCollection<Category> Categories { get; } = new();
+        public ICommand AddItemCommand { get; }
 
         public MainViewModel()
         {
@@ -22,6 +26,27 @@ namespace SimpleKanban.ViewModels
                 Title = "Welcome",
                 Description = "This is a sample task. Drag me to another column."
             });
+
+            AddItemCommand = new RelayCommand<Category>(OnAddItemExecuted);
+        }
+
+        private void OnAddItemExecuted(Category category)
+        {
+            var window = new AddItemWindow
+            {
+                Owner = Application.Current.MainWindow
+            };
+
+            if (window.ShowDialog() == true)
+            {
+                var item = new KanbanItem
+                {
+                    Title = window.TitleTextBox.Text,
+                    Description = window.DescriptionTextBox.Text
+                };
+
+                AddItemToCategory(category, item);
+            }
         }
 
         public void AddItemToCategory(Category category, KanbanItem item)
@@ -62,6 +87,28 @@ namespace SimpleKanban.ViewModels
             }
 
             target.Items.Add(item);
+        }
+    }
+
+    public class RelayCommand<T> : ICommand
+    {
+        private readonly Action<T> _execute;
+        private readonly Predicate<T> _canExecute;
+
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute = null)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter) => _canExecute?.Invoke((T)parameter) != false;
+
+        public void Execute(object parameter) => _execute((T)parameter);
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
         }
     }
 }

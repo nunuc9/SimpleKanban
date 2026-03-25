@@ -9,10 +9,17 @@ namespace SimpleKanban.Views
 
         public KanbanItem? Result { get; private set; }
 
+        /// <summary>
+        /// True when the user chose to delete the editing item from within this dialog.
+        /// Only meaningful when editing an existing item.
+        /// </summary>
+        public bool DeleteRequested { get; private set; }
+
         public AddItemWindow()
         {
             InitializeComponent();
             Title = "Add Item";
+            DeleteButton.Visibility = Visibility.Collapsed;
         }
 
         public AddItemWindow(KanbanItem editingItem) : this()
@@ -23,6 +30,9 @@ namespace SimpleKanban.Views
             // populate fields
             TitleTextBox.Text = editingItem.Title;
             DescriptionTextBox.Text = editingItem.Description;
+
+            // show delete button only in edit mode
+            DeleteButton.Visibility = Visibility.Visible;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -58,6 +68,22 @@ namespace SimpleKanban.Views
         {
             DialogResult = false;
             Close();
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_editingItem is null)
+                return;
+
+            var result = MessageBox.Show(this, $"Delete \"{_editingItem.Title}\"?", "Confirm delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                DeleteRequested = true;
+                // We do not return a Result when deleting, the caller should check DeleteRequested.
+                DialogResult = true;
+                Close();
+            }
         }
     }
 }
