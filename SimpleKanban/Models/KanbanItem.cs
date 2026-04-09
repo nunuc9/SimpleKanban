@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 
 namespace SimpleKanban.Models
 {
@@ -29,6 +30,8 @@ namespace SimpleKanban.Models
                 RaisePropertyChanged();
             }
         }
+
+        public ObservableCollection<Tag> Tags { get; } = new();
 
         public DateTime CreatedAt { get; } = DateTime.Now;
 

@@ -24,7 +24,7 @@ namespace SimpleKanban.ViewModels
             Categories[0].Items.Add(new KanbanItem
             {
                 Title = "Welcome",
-                Description = "This is a sample task. Drag me to another column."
+                Description = "This is a sample task.\nDrag me to another column.\nDouble-click to edit."
             });
 
             AddItemCommand = new RelayCommand<Category>(OnAddItemExecuted);

@@ -1,32 +1,31 @@
 # SimpleKanban
 
-Minimal WPF Kanban-style task dashboard built on .NET 8.
+A minimal WPF Kanban-style task dashboard built with .NET 8. This project demonstrates basic WPF concepts including MVVM pattern, data binding, and drag-and-drop functionality.
 
-## Project status
-Foundation only — models, DbContext and basic WPF shell. Ongoing changes expected
+## Project Status
+**In Progress** - This is a learning project where I'm exploring WPF development, MVVM architecture, and C# best practices. Features are being added incrementally. Not able to save any info yet, planning on using SQL for creating databases and using the kanban interface to interact with it.
+
+## Features
+- Kanban board with customizable categories (Backlog, In Progress, Bugs, Fixed)
+- Drag and drop items between categories
+- Add/edit/delete items with title and description
+- Tag system for categorizing items (Bug, Feature, Documentation, Task, Urgent)
+- Edit category names
+- Item count display for each category
 
 ## Prerequisites
-- .NET 8 SDK
-- Visual Studio 2022 or later (with WPF/.NET desktop workload) - I used Visual Studio 2022 17.4.5
-- SQL Server LocalDB (for default connection) or change connection string in `Data/AppDbContext.cs`
+- **.NET 8 SDK** - Download from [Microsoft .NET](https://dotnet.microsoft.com/download/dotnet/8.0)
+- **Visual Studio 2022** or later with WPF/.NET desktop workload
+- Windows operating system (WPF requirement)
 
-## Setup
-1. Restore and build:
-   - Visual Studio: Open solution and build.
-   - CLI (terminal - Open with View" > Terminal, in VS Studio):
-     - `dotnet restore`
-     - `dotnet build`
+## Getting Started
+1. Clone or download the project
+2. Open `SimpleKanban.sln` in Visual Studio
+3. Build and run the project (F5 or Ctrl+F5)
 
-2. Install EF packages if not present:
-   - `dotnet add package Microsoft.EntityFrameworkCore.SqlServer`
-   - `dotnet add package Microsoft.EntityFrameworkCore.Tools`
-   - `dotnet add package Microsoft.EntityFrameworkCore.Design`
-
-3. Migrations
-   - Using Package Manager Console (Tools > NuGet Package Manager > Package Manager Console, in Visual Studio):
-     - `Add-Migration Initial`
-     - `Update-Database`
-   - Or using dotnet-ef (Install with command: dotnet tool install --global dotnet-ef):
-     - `dotnet tool install --global dotnet-ef` (if not installed)
-     - `dotnet ef migrations add Initial --project SimpleKanban --startup-project SimpleKanban`
-     - `dotnet ef database update --project SimpleKanban --startup-project SimpleKanban`
+## Technologies Used
+- C# / .NET 8
+- WPF (Windows Presentation Foundation)
+- MVVM Pattern (separate UI from logic - data binding)
+- Entity Framework Core (planned for future persistence)
+- VS Code and Github

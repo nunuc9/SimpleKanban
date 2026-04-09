@@ -20,6 +20,7 @@ namespace SimpleKanban.Views
             InitializeComponent();
             Title = "Add Item";
             DeleteButton.Visibility = Visibility.Collapsed;
+            InitializeDefaultTags();
         }
 
         public AddItemWindow(KanbanItem editingItem) : this()
@@ -33,6 +34,24 @@ namespace SimpleKanban.Views
 
             // show delete button only in edit mode
             DeleteButton.Visibility = Visibility.Visible;
+        }
+
+        private void InitializeDefaultTags()
+        {
+            // Create some default tags for demonstration
+            var availableTags = new[]
+            {
+                new Tag { Name = "Bug", Color = "#FFFF6B6B" },
+                new Tag { Name = "Feature", Color = "#FF4ECDC4" },
+                new Tag { Name = "Documentation", Color = "#FFFFE66D" },
+                new Tag { Name = "Task", Color = "#FF95E1D3" },
+                new Tag { Name = "Urgent", Color = "#FFA8E6CF" },
+            };
+
+            foreach (var tag in availableTags)
+            {
+                TagsListBox.Items.Add(tag);
+            }
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)

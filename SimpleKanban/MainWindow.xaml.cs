@@ -62,6 +62,19 @@ namespace SimpleKanban
             }
         }
 
+        private void EditCategory_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is Category cat)
+            {
+                var dlg = new EditCategoryWindow(cat) { Owner = this };
+
+                if (dlg.ShowDialog() == true)
+                {
+                    cat.Name = dlg.CategoryName;
+                }
+            }
+        }
+
         private void DeleteCategory_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is Category cat)

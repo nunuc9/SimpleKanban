@@ -20,9 +20,13 @@
                     <Border BorderBrush="#FFCCCCCC" BorderThickness="1" Background="#FFF" Margin="6" Padding="8" Width="240">
                         <DockPanel>
                             <StackPanel DockPanel.Dock="Top">
-                                <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"/>
+                                    <TextBlock Text="{Binding Items.Count, StringFormat=' ({0})'}" FontWeight="Bold" FontSize="14" Foreground="#FF666666"/>
+                                </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,6">
                                     <Button Content="Add" Click="AddItem_Click" Tag="{Binding}" Width="60" Margin="0,0,6,0"/>
+                                    <Button Content="Edit" Click="EditCategory_Click" Tag="{Binding}" Width="60"/>
                                 </StackPanel>
                             </StackPanel>
 
@@ -44,10 +48,21 @@
                                             <StackPanel>
                                                 <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
                                                 <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="12" Foreground="#FF555555" Margin="0,4,0,0"/>
-                                                <DockPanel Margin="0,6,0,0">
-                                                    <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:G}'}" FontSize="11" Foreground="#FF777777" DockPanel.Dock="Left"/>
-                                                    <Button Content="Delete" DockPanel.Dock="Right" Width="60" Click="DeleteItem_Click" Tag="{Binding}"/>
-                                                </DockPanel>
+                                                <ItemsControl ItemsSource="{Binding Tags}" Margin="0,6,0,0">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <WrapPanel IsItemsHost="True"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border BorderBrush="{Binding Color}" BorderThickness="1" CornerRadius="3" Padding="4,1" Margin="0,0,4,0" Background="#F9F9F9">
+                                                                <TextBlock Text="{Binding Name}" FontSize="10" Foreground="#333"/>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                                <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:G}'}" FontSize="11" Foreground="#FF777777" Margin="0,6,0,0"/>
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
