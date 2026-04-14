@@ -5,7 +5,7 @@ namespace SimpleKanban.Models
 {
     public class KanbanItem : BaseNotify
     {
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         private string _title = string.Empty;
         public string Title
@@ -31,9 +31,9 @@ namespace SimpleKanban.Models
             }
         }
 
-        public ObservableCollection<Tag> Tags { get; } = new();
+        public ObservableCollection<Tag> Tags { get; set; } = new();
 
-        public DateTime CreatedAt { get; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public override string ToString() => Title;
     }

@@ -3,11 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:SimpleKanban.ViewModels"
         Title="Simple Kanban" Width="1000" Height="600">
-    <Window.DataContext>
-        <vm:MainViewModel />
-    </Window.DataContext>
 
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+    <DockPanel Margin="12">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,12">
+            <Button Content="Settings" Click="SettingsButton_Click" Width="90" />
+        </StackPanel>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
         <ItemsControl ItemsSource="{Binding Categories}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -46,9 +48,7 @@
                                     <DataTemplate>
                                         <Border BorderBrush="#FFE0E0E0" BorderThickness="1" Padding="6" Margin="0,0,0,8" Background="#FFF">
                                             <StackPanel>
-                                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
-                                                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="12" Foreground="#FF555555" Margin="0,4,0,0"/>
-                                                <ItemsControl ItemsSource="{Binding Tags}" Margin="0,6,0,0">
+                                                <ItemsControl ItemsSource="{Binding Tags}" Margin="0,0,0,8">
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
                                                             <WrapPanel IsItemsHost="True"/>
@@ -56,12 +56,14 @@
                                                     </ItemsControl.ItemsPanel>
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Border BorderBrush="{Binding Color}" BorderThickness="1" CornerRadius="3" Padding="4,1" Margin="0,0,4,0" Background="#F9F9F9">
-                                                                <TextBlock Text="{Binding Name}" FontSize="10" Foreground="#333"/>
+                                                            <Border BorderBrush="{Binding Color}" BorderThickness="1" CornerRadius="3" Padding="4,2" Margin="0,0,4,4" Background="{Binding Color}">
+                                                                <TextBlock Text="{Binding Name}" FontSize="11" Foreground="White" FontWeight="SemiBold"/>
                                                             </Border>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
                                                 </ItemsControl>
+                                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
+                                                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="12" Foreground="#FF555555" Margin="0,4,0,0"/>
                                                 <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:G}'}" FontSize="11" Foreground="#FF777777" Margin="0,6,0,0"/>
                                             </StackPanel>
                                         </Border>
@@ -74,4 +76,5 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </ScrollViewer>
+    </DockPanel>
 </Window>

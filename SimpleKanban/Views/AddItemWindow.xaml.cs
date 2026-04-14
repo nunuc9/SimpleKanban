@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using SimpleKanban.Models;
 
@@ -15,43 +17,31 @@ namespace SimpleKanban.Views
         /// </summary>
         public bool DeleteRequested { get; private set; }
 
-        public AddItemWindow()
+        public AddItemWindow(ObservableCollection<Tag> availableTags)
         {
             InitializeComponent();
             Title = "Add Item";
             DeleteButton.Visibility = Visibility.Collapsed;
-            InitializeDefaultTags();
+            TagsListBox.ItemsSource = availableTags;
         }
 
-        public AddItemWindow(KanbanItem editingItem) : this()
+        public AddItemWindow(KanbanItem editingItem, ObservableCollection<Tag> availableTags) : this(availableTags)
         {
             _editingItem = editingItem;
             Title = "Edit Item";
 
-            // populate fields
             TitleTextBox.Text = editingItem.Title;
             DescriptionTextBox.Text = editingItem.Description;
 
-            // show delete button only in edit mode
-            DeleteButton.Visibility = Visibility.Visible;
-        }
-
-        private void InitializeDefaultTags()
-        {
-            // Create some default tags for demonstration
-            var availableTags = new[]
+            foreach (var availableTag in availableTags)
             {
-                new Tag { Name = "Bug", Color = "#FFFF6B6B" },
-                new Tag { Name = "Feature", Color = "#FF4ECDC4" },
-                new Tag { Name = "Documentation", Color = "#FFFFE66D" },
-                new Tag { Name = "Task", Color = "#FF95E1D3" },
-                new Tag { Name = "Urgent", Color = "#FFA8E6CF" },
-            };
-
-            foreach (var tag in availableTags)
-            {
-                TagsListBox.Items.Add(tag);
+                if (editingItem.Tags.Any(existing => existing.Id == availableTag.Id))
+                {
+                    TagsListBox.SelectedItems.Add(availableTag);
+                }
             }
+
+            DeleteButton.Visibility = Visibility.Visible;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -63,11 +53,17 @@ namespace SimpleKanban.Views
                 return;
             }
 
+            var selectedTags = TagsListBox.SelectedItems.OfType<Tag>().ToList();
             if (_editingItem is not null)
             {
                 // update existing
                 _editingItem.Title = title;
                 _editingItem.Description = DescriptionTextBox.Text?.Trim() ?? string.Empty;
+                _editingItem.Tags.Clear();
+                foreach (var tag in selectedTags)
+                {
+                    _editingItem.Tags.Add(new Tag { Id = tag.Id, Name = tag.Name, Color = tag.Color });
+                }
                 Result = _editingItem;
             }
             else
@@ -75,12 +71,31 @@ namespace SimpleKanban.Views
                 Result = new KanbanItem
                 {
                     Title = title,
-                    Description = DescriptionTextBox.Text?.Trim() ?? string.Empty
+                    Description = DescriptionTextBox.Text?.Trim() ?? string.Empty,
+                    Tags = new System.Collections.ObjectModel.ObservableCollection<Tag>(selectedTags.Select(tag => new Tag { Id = tag.Id, Name = tag.Name, Color = tag.Color }))
                 };
             }
 
             DialogResult = true;
             Close();
+        }
+
+        private void TagsListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (sender is not System.Windows.Controls.ListBox listBox)
+                return;
+
+            if (listBox.SelectedItem is Tag selectedTag)
+            {
+                if (listBox.SelectedItems.Contains(selectedTag))
+                {
+                    listBox.SelectedItems.Remove(selectedTag);
+                }
+                else
+                {
+                    listBox.SelectedItems.Add(selectedTag);
+                }
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

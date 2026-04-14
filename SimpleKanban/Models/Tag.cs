@@ -4,7 +4,7 @@ namespace SimpleKanban.Models
 {
     public class Tag : BaseNotify
     {
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         private string _name = string.Empty;
         public string Name

@@ -27,7 +27,7 @@ namespace SimpleKanban
         {
             if (sender is Button btn && btn.Tag is Category cat)
             {
-                var dlg = new AddItemWindow { Owner = this };
+                var dlg = new AddItemWindow(ViewModel.AvailableTags) { Owner = this };
 
                 if (dlg.ShowDialog() == true && dlg.Result is not null)
                 {
@@ -40,12 +40,22 @@ namespace SimpleKanban
         {
             if (sender is Button btn && btn.Tag is KanbanItem item)
             {
-                var dlg = new AddItemWindow(item) { Owner = this };
+                var dlg = new AddItemWindow(item, ViewModel.AvailableTags) { Owner = this };
 
                 if (dlg.ShowDialog() == true && dlg.Result is not null)
                 {
-                    // If editing we updated the original object directly; no further action required.
+                    Task.Run(() => ViewModel.SaveAsync().ConfigureAwait(false));
                 }
+            }
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new SettingsWindow(ViewModel) { Owner = this };
+            if (window.ShowDialog() == true)
+            {
+                ViewModel.SynchronizeTags();
+                Task.Run(() => ViewModel.SaveAsync().ConfigureAwait(false));
             }
         }
 
@@ -71,6 +81,7 @@ namespace SimpleKanban
                 if (dlg.ShowDialog() == true)
                 {
                     cat.Name = dlg.CategoryName;
+                    Task.Run(() => ViewModel.SaveAsync().ConfigureAwait(false));
                 }
             }
         }
@@ -142,7 +153,7 @@ namespace SimpleKanban
             if (listBoxItem.DataContext is not KanbanItem item)
                 return;
 
-            var dlg = new AddItemWindow(item) { Owner = this };
+            var dlg = new AddItemWindow(item, ViewModel.AvailableTags) { Owner = this };
             if (dlg.ShowDialog() == true)
             {
                 if (dlg.DeleteRequested)

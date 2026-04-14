@@ -1,9 +1,12 @@
+using System;
 using System.Collections.ObjectModel;
 
 namespace SimpleKanban.Models
 {
     public class Category : BaseNotify
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
+
         private string _name = string.Empty;
         public string Name
         {
@@ -16,6 +19,6 @@ namespace SimpleKanban.Models
             }
         }
 
-        public ObservableCollection<KanbanItem> Items { get; } = new();
+        public ObservableCollection<KanbanItem> Items { get; set; } = new();
     }
 }
