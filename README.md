@@ -3,7 +3,7 @@
 A minimal WPF Kanban-style task dashboard built with .NET 8. This project demonstrates basic WPF concepts including MVVM pattern, data binding, and drag-and-drop functionality.
 
 ## Project Status
-**In Progress** - This is a learning project where I'm exploring WPF development, MVVM architecture, and C# best practices. Features are being added incrementally. Not able to save any info yet, planning on using SQL for creating databases (NOTE: currently using JSON for info storage: it's the best/easiest for the current scope of the project) and using the kanban interface to interact with it.
+**In Progress** - This is a learning project where I'm exploring WPF development, MVVM architecture, and C# best practices. Features are being added incrementally.
 
 ## Features
 - Kanban board with customizable categories (Backlog, In Progress, Bugs, Fixed)
@@ -12,6 +12,7 @@ A minimal WPF Kanban-style task dashboard built with .NET 8. This project demons
 - Customizable Tag system for categorizing items
 - Item count display for each category
 - Settings window to edit categories and tags
+- Persistence through json file save/load
 
 ## Prerequisites
 - **.NET 8 SDK** - Download from [Microsoft .NET](https://dotnet.microsoft.com/download/dotnet/8.0)
@@ -29,3 +30,13 @@ A minimal WPF Kanban-style task dashboard built with .NET 8. This project demons
 - MVVM Pattern (separate UI from logic - data binding)
 - Entity Framework Core (planned for future persistence)
 - VS Code and Github
+
+## Screenshots
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9d8c3f50-fcc4-4556-88b4-861200953811" alt="Main Kanban Board" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/f9bfa545-a93b-41cc-b6e5-5777c0a35a29" alt="Task Management View" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+  <br><br>
+  <img src="https://github.com/user-attachments/assets/daaea82c-057a-47aa-86c5-c00cc5108336" alt="Add New Task" width="500" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+</p>
