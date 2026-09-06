@@ -3,7 +3,7 @@
 A minimal WPF Kanban-style task dashboard built with .NET 8. This project demonstrates basic WPF concepts including MVVM pattern, data binding, and drag-and-drop functionality.
 
 ## Project Status
-**In Progress** - This is a learning project where I'm exploring WPF development, MVVM architecture, and C# best practices. Features are being added incrementally.
+This is a learning project where I'm exploring WPF development, MVVM architecture, and C# best practices. Features are being added incrementally.
 
 ## Features
 - Kanban board with customizable categories (Backlog, In Progress, Bugs, Fixed)
